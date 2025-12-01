@@ -46,7 +46,7 @@ function renderFromText(text) {
     wrap.className = 'card-wrap' + (qty > 0 ? '' : ' dim');
 
     const img = document.createElement('img');
-    img.src = path.trim();
+    img.src = `cards/${setName}/${path.trim()}`;
 
     const badge = document.createElement('div');
     badge.className = 'badge';
