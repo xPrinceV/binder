@@ -17,7 +17,7 @@ Common/17.png*0
 Common/18.png*0
 Common/19.png*0
 Common/20.png*0
-Common/21.png*0
+Common/21.png*1
 Common/22.png*0
 Common/23.png*0
 Common/24.png*0
@@ -55,8 +55,8 @@ Common/59.png*0
 Common/60.png*0
 Common/61.png*0
 Common/62.png*0
-Common/63.png*0
-Common/64.png*0
+Common/63.png*1
+Common/64.png*1
 Common/65.png*0
 Common/66.png*1
 Common/68.png*0
@@ -77,7 +77,7 @@ Common/82.png*0
 Common/83.png*0
 Common/84.png*0
 Common/85.png*0
-Common/86.png*0
+Common/86.png*1
 Ex/1.png*0
 Ex/2.png*1
 Ex/3.png*0
@@ -120,7 +120,7 @@ IR/119.png*0
 IR/120.png*0
 IR/121.png*0
 IR/122.png*0
-IR/123.png*0
+IR/123.png*1
 IR/124.png*0
 IR/125.png*0
 IR/126.png*0
