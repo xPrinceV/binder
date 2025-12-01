@@ -64,13 +64,20 @@ function renderFromText(text) {
 }
 
 // --- Search button ---
-document.getElementById('goBtn').addEventListener('click', () => {
-  const user = document.getElementById('userInput').value.trim();
-  const set = document.getElementById('setSelect').value;
+document.getElementById("goBtn").addEventListener("click", () => {
+  const setName = document.getElementById("setSelect").value; // <-- this
+  const username = document.getElementById("userInput").value.trim();
 
-  if (user && set) {
-    history.replaceState(null, '', `?set=${encodeURIComponent(set)}&user=${encodeURIComponent(user)}`);
-    loadUserFile(set, user);
+  if (username && setName) {
+    // update URL
+    history.replaceState(
+      null,
+      "",
+      `?set=${encodeURIComponent(setName)}&user=${encodeURIComponent(username)}`
+    );
+
+    // load file
+    loadUserFile(setName, username);
   }
 });
 
