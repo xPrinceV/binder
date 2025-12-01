@@ -26,14 +26,14 @@ async function loadUserFile(setName, username) {
     }
     const text = await res.text();
     setStatus('');
-    renderFromText(text);
+    renderFromText(text, setName);
   } catch (err) {
     console.error(err);
     setStatus('Error loading file');
   }
 }
 
-function renderFromText(text) {
+function renderFromText(text, setName) {
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
