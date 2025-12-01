@@ -1,19 +1,20 @@
-function getQueryUser() {
+function getQueryParam(name) {
   const p = new URLSearchParams(window.location.search);
-  return p.get('user') || '';
+  return p.get(name) || '';
 }
 
 function setStatus(msg) {
   document.getElementById('status').textContent = msg || '';
 }
 
-async function loadUserFile(username) {
-  if (!username) {
-    setStatus('Enter username or use ?user=name');
+async function loadUserFile(setName, username) {
+  if (!setName || !username) {
+    setStatus('Use ?set=set1&user=name');
+    document.getElementById('grid').innerHTML = '';
     return;
   }
 
-  const url = `users/${encodeURIComponent(username)}.txt`;
+  const url = `sets/${encodeURIComponent(setName)}/${encodeURIComponent(username)}.txt`;
   setStatus('Loading ' + url + ' ...');
 
   try {
@@ -35,19 +36,17 @@ async function loadUserFile(username) {
 function renderFromText(text) {
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const grid = document.getElementById('grid');
-  grid.innerHTML = ''; // clear
+  grid.innerHTML = '';
 
   lines.forEach(line => {
-    const parts = line.split('*');
-    const path = parts[0].trim();
-    const qty = parseInt(parts[1]) || 0;
+    const [path, qtyStr] = line.split('*');
+    const qty = parseInt(qtyStr) || 0;
 
     const wrap = document.createElement('div');
     wrap.className = 'card-wrap' + (qty > 0 ? '' : ' dim');
 
     const img = document.createElement('img');
-    img.src = path;
-    img.alt = path;
+    img.src = path.trim();
 
     const badge = document.createElement('div');
     badge.className = 'badge';
@@ -55,7 +54,6 @@ function renderFromText(text) {
 
     const caption = document.createElement('div');
     caption.className = 'caption';
-    // optional: show filename or strip folder
     caption.textContent = path.split('/').pop();
 
     wrap.appendChild(img);
@@ -65,20 +63,26 @@ function renderFromText(text) {
   });
 }
 
-// --- wire UI ---
+// --- Search button ---
 document.getElementById('goBtn').addEventListener('click', () => {
-  const u = document.getElementById('userInput').value.trim();
-  if (u) {
-    history.replaceState(null, '', '?user=' + encodeURIComponent(u));
-    loadUserFile(u);
+  const user = document.getElementById('userInput').value.trim();
+  const set = document.getElementById('setSelect').value;
+
+  if (user && set) {
+    history.replaceState(null, '', `?set=${encodeURIComponent(set)}&user=${encodeURIComponent(user)}`);
+    loadUserFile(set, user);
   }
 });
 
-// on load: maybe load from query param
-const initialUser = getQueryUser();
-if (initialUser) {
-  document.getElementById('userInput').value = initialUser;
-  loadUserFile(initialUser);
+// --- Auto-load from URL ---
+const initialSet = getQueryParam('set');
+const initialUser = getQueryParam('user');
+
+if (initialSet) document.getElementById('setSelect').value = initialSet;
+if (initialUser) document.getElementById('userInput').value = initialUser;
+
+if (initialSet && initialUser) {
+  loadUserFile(initialSet, initialUser);
 } else {
-  setStatus('Enter username or open with ?user=aden');
+  setStatus('Select set and enter username');
 }
